@@ -42,7 +42,7 @@ var Settings = React.createClass({
 
     var PostNameFolder = SettingsCheckbox({
       name: 'postNameFolder',
-      label: 'add image to post name folder',
+      label: 'Add to post-specific folder',
       style: {width: '425px', display: 'inline-block'}
     })
 

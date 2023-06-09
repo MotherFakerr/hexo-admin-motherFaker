@@ -9,7 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var reactify = require('reactify');
 var rename = require('gulp-rename');
 
-gulp.task('demo', function () {
+gulp.task('demo', gulp.series(function () {
   var b = browserify({
     entries: './docs/demo/run.js',
     debug: true,
@@ -21,9 +21,9 @@ gulp.task('demo', function () {
     .pipe(buffer())
     .pipe(rename('bundle.js'))
     .pipe(gulp.dest('./docs/demo/admin/'));
-});
+}));
 
-gulp.task('javascript', function () {
+gulp.task('javascript', gulp.series(function () {
   var b = browserify({
     entries: './client/run.js',
     debug: true,
@@ -33,31 +33,26 @@ gulp.task('javascript', function () {
   return b.bundle()
     .pipe(source('./client/run.js'))
     .pipe(buffer())
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    // Add transformation tasks to the pipeline here.
-    // .pipe(uglify())
-    // .on('error', gutil.log)
-    // .pipe(sourcemaps.write('./'))
     .pipe(rename('bundle.js'))
     .pipe(gulp.dest('./www/'));
-});
+}));
 
 var less = require('gulp-less');
 
-gulp.task('less', function () {
+gulp.task('less', gulp.series(function () {
   return gulp.src('./client/less/index.less')
     .pipe(less({
       // paths: [path.join(__dirname, 
     }))
     .pipe(rename('bundle.css'))
     .pipe(gulp.dest('./www'))
-});
+}));
 
-gulp.task('build', ['less', 'javascript']);
+gulp.task('build',gulp.series('less', 'javascript'));
 
-gulp.task('watch', function () {
+gulp.task('watch', gulp.series(function () {
   gulp.watch('client/**/*.js', ['javascript']);
   gulp.watch('client/**/*.less', ['less']);
-});
+}));
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', gulp.series('build', 'watch'));

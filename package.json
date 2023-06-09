@@ -1,14 +1,14 @@
 {
-  "name": "hexo-admin",
-  "version": "2.3.0",
-  "description": "Adds an admin section to the hexo server",
+  "name": "hexo-admin-motherfaker",
+  "version": "1.0.0",
+  "description": "Adds an admin section to the hexo server, forked from hexo-admin by jaredly",
   "main": "index.js",
   "scripts": {
     "prepublish": "gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaredly/hexo-admin.git"
+    "url": "https://https://github.com/MotherFakerr/hexo-admin-motherFaker.git"
   },
   "keywords": [
     "hexo",
@@ -16,12 +16,8 @@
     "dashboard",
     "plugin"
   ],
-  "author": "Jared Forsyth <jared@jaredforsyth.com>",
+  "author": "motherfaker",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jaredly/hexo-admin/issues"
-  },
-  "homepage": "http://jaredly.github.io/hexo-admin/",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.5.0",
@@ -43,7 +39,7 @@
     "browserify": "^11.2.0",
     "codemirror": "^5.24.2",
     "es6-promise": "^1.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-less": "^3.0.5",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
@@ -57,8 +53,8 @@
     "reactify": "^0.14.0",
     "superagent": "^0.18.2",
     "superagent-browserify": "0.0.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.7.0"
   }
 }
