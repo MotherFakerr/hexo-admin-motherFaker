@@ -40,6 +40,12 @@ var Settings = React.createClass({
       style: {width: '425px', display: 'inline-block'}
     })
 
+    var PostNameFolder = SettingsCheckbox({
+      name: 'postNameFolder',
+      label: 'add image to post name folder',
+      style: {width: '425px', display: 'inline-block'}
+    })
+
     var ImagePath = SettingsTextbox({
       name: 'imagePath',
       defaultValue: '/images',
@@ -76,6 +82,7 @@ var Settings = React.createClass({
         </p>
         {AskImageFilename}
         {OverwriteImages}
+        {PostNameFolder}
         {ImagePath}
         {ImagePrefix}
       </div>

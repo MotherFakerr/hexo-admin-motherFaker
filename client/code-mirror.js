@@ -6,6 +6,7 @@ var api = require('./api')
 
 var CodeMirror = React.createClass({
   propTypes: {
+    title: PT.string,
     onScroll: PT.func,
     forceLineNumbers: PT.bool,
     adminSettings: PT.object
@@ -84,6 +85,10 @@ var CodeMirror = React.createClass({
         if(!!settings.options.askImageFilename) {
           var filePath = !!settings.options.imagePath ? settings.options.imagePath : '/images'
           filename = prompt(`What would you like to name the photo? All files saved as pngs. Name will be relative to ${filePath}.`, 'image.png')
+        }
+
+        if (!!settings.options.postNameFolder) {
+          filename = this.props.title + '/' + filename
         }
       }
       console.log(filename)
