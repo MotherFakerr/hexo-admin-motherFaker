@@ -39,8 +39,7 @@ var CodeMirror = React.createClass({
 
     this.cm = CM(this.getDOMNode(), editorSettings);
     this.cm.on('change', (cm) => {
-      this.props.onChange(cm.getValue(), this.bRefresh)
-      this.bRefresh = false;
+      this.props.onChange(cm.getValue())
     })
     this.cm.on('scroll', (cm) => {
       var node = cm.getScrollerElement()
@@ -91,8 +90,9 @@ var CodeMirror = React.createClass({
       console.log(filename)
       api.uploadImage(event.target.result, filename, this.props.title).then((res) =>
       {
-        this.cm.replaceSelection(`\n![${res.msg}](${res.src})`)
-        this.bRefresh = true;
+        setTimeout(() => {
+          this.cm.replaceSelection(`\n![${res.msg}](${res.src})`)
+        }, 500);
       }
       );
     };

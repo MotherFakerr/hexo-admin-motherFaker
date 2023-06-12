@@ -25,17 +25,12 @@ var Page = React.createClass({
   },
 
   componentDidMount: function () {
-    this._page = _.debounce((update, bRefresh) => {
+    this._page = _.debounce((update) => {
       var now = moment()
       api.page(this.props.params.pageId, update).then(() => {
         this.setState({
           updated: now
         })
-        if (bRefresh) {
-          setTimeout(() => {
-            window.location.reload()
-          }, 100);
-        }
       })
     }, 1000, {trailing: true, loading: true})
   },
@@ -50,7 +45,7 @@ var Page = React.createClass({
     })
   },
 
-  handleChangeContent: function (text, bRefresh) {
+  handleChangeContent: function (text) {
     if (text === this.state.raw) {
       return
     }
@@ -59,7 +54,7 @@ var Page = React.createClass({
       updated: null,
       rendered: marked(text)
     })
-    this._page({_content: text}, bRefresh)
+    this._page({_content: text})
   },
 
   handleChangeTitle: function (title) {
