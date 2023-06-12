@@ -48,12 +48,17 @@ var Post = React.createClass({
   },
 
   componentDidMount: function () {
-    this._post = _.debounce((update) => {
+    this._post = _.debounce((update, bRefresh) => {
       var now = moment()
       api.post(this.props.params.postId, update).then(() => {
         this.setState({
           updated: now
         })
+        if (bRefresh) {
+          setTimeout(() => {
+            window.location.reload()
+          }, 100);
+        }
       })
     }, 1000, {trailing: true, loading: true})
   },
@@ -75,7 +80,7 @@ var Post = React.createClass({
     })
   },
 
-  handleChangeContent: function (text) {
+  handleChangeContent: function (text, bRefresh) {
     if (text === this.state.raw) {
       return
     }
@@ -84,7 +89,7 @@ var Post = React.createClass({
       updated: null,
       rendered: marked(text)
     })
-    this._post({_content: text})
+    this._post({_content: text}, bRefresh)
   },
 
   handleChangeTitle: function (title) {

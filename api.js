@@ -41,7 +41,7 @@ module.exports = function (app, hexo) {
       fs.writeFile(hexo.base_dir+'_admin-config.yml', '')
       return {}
     } else {
-      var settings = yml.safeLoad(fs.readFileSync(path))
+      var settings = yml.load(fs.readFileSync(path))
 
       if (!settings) return {}
       return settings
@@ -354,15 +354,20 @@ module.exports = function (app, hexo) {
       askImageFilename = !!settings.options.askImageFilename
       overwriteImages = !!settings.options.overwriteImages
       imagePath = settings.options.imagePath ? settings.options.imagePath : imagePath
+      if (settings.options.postNameFolder) {
+        imagePath += `/${req.body.postName}`
+      }
       imagePrefix = settings.options.imagePrefix ? settings.options.imagePrefix : imagePrefix
     }
 
     var msg = 'upload successful'
-    var filename = imagePrefix + i +'.png'
     var i = 0
+    var filename = imagePrefix + i +'.png'
     while (fs.existsSync(path.join(hexo.source_dir, imagePath, filename))) {
       i += 1
+      filename= imagePrefix + i +'.png'
     }
+    
     if (req.body.filename) {
       var givenFilename = req.body.filename
       // check for png ending, add it if not there

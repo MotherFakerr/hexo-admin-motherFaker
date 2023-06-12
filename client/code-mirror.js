@@ -39,7 +39,8 @@ var CodeMirror = React.createClass({
 
     this.cm = CM(this.getDOMNode(), editorSettings);
     this.cm.on('change', (cm) => {
-      this.props.onChange(cm.getValue())
+      this.props.onChange(cm.getValue(), this.bRefresh)
+      this.bRefresh = false;
     })
     this.cm.on('scroll', (cm) => {
       var node = cm.getScrollerElement()
@@ -86,14 +87,13 @@ var CodeMirror = React.createClass({
           var filePath = !!settings.options.imagePath ? settings.options.imagePath : '/images'
           filename = prompt(`What would you like to name the photo? All files saved as pngs. Name will be relative to ${filePath}.`, 'image.png')
         }
-
-        if (!!settings.options.postNameFolder) {
-          filename = this.props.title + '/' + filename
-        }
       }
       console.log(filename)
-      api.uploadImage(event.target.result, filename).then((res) =>
+      api.uploadImage(event.target.result, filename, this.props.title).then((res) =>
+      {
         this.cm.replaceSelection(`\n![${res.msg}](${res.src})`)
+        this.bRefresh = true;
+      }
       );
     };
     reader.readAsDataURL(blob);
