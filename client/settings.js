@@ -46,6 +46,12 @@ var Settings = React.createClass({
       style: {width: '425px', display: 'inline-block'}
     })
 
+    var EnableHtml = SettingsCheckbox({
+      name: 'enableHtml',
+      label: 'Enable HTML',
+      style: {width: '425px', display: 'inline-block'}
+    })
+
     var ImagePath = SettingsTextbox({
       name: 'imagePath',
       defaultValue: '/images',
@@ -83,6 +89,7 @@ var Settings = React.createClass({
         {AskImageFilename}
         {OverwriteImages}
         {PostNameFolder}
+        {EnableHtml}
         {ImagePath}
         {ImagePrefix}
       </div>
