@@ -91,7 +91,7 @@ var CodeMirror = React.createClass({
       api.uploadImage(event.target.result, filename, this.props.title).then((res) =>
       {
         setTimeout(() => {
-          const img = !!settings.options.enableHtml ? `<img src="${res.src}" />` : `\n![${res.msg}](${res.src})`;
+          const img = !!settings.options.enableHtml ? `\n<img src="${res.src}" />` : `\n![${res.msg}](${res.src})`;
           this.cm.replaceSelection(img)
         }, 500);
       }

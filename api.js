@@ -185,7 +185,7 @@ module.exports = function (app, hexo) {
     }
     hexo.log.d('set', name, '=', value, 'with', JSON.stringify(addedOptions))
 
-    fs.writeFileSync(hexo.base_dir + '_admin-config.yml', yml.safeDump(settings))
+    fs.writeFileSync(hexo.base_dir + '_admin-config.yml', yml.dump(settings))
     res.done({
       updated: 'Successfully updated ' + name + ' = ' + value,
       settings: settings
