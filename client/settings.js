@@ -54,7 +54,7 @@ var Settings = React.createClass({
 
     var ImagePath = SettingsTextbox({
       name: 'imagePath',
-      defaultValue: '/_assets/images',
+      defaultValue: 'assets/images',
       label: 'Image directory'
     });
 
