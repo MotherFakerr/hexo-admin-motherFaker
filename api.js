@@ -275,7 +275,9 @@ module.exports = function (app, hexo) {
       return res.send(400, 'No title given');
     }
 
-    var postParameters = {title: req.body.title, layout: 'draft', date: new Date(), author: hexo.config.author};
+    var date = new Date();
+    var slug =`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}${req.body.title}`
+    var postParameters = {title: req.body.title, slug: slug, layout: 'draft', date: date, author: hexo.config.author};
     extend(postParameters, hexo.config.metadata || {});
     hexo.post.create(postParameters)
     .error(function(err) {

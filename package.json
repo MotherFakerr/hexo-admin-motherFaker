@@ -1,6 +1,6 @@
 {
   "name": "hexo-admin-motherfakerr",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Adds an admin section to the hexo server, forked from hexo-admin by jaredly",
   "main": "index.js",
   "scripts": {
