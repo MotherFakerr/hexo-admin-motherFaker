@@ -276,7 +276,7 @@ module.exports = function (app, hexo) {
     }
 
     var date = new Date();
-    var slug =`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}${req.body.title}`
+    var slug =`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}${req.body.title}`
     var postParameters = {title: req.body.title, slug: slug, layout: 'draft', date: date, author: hexo.config.author};
     extend(postParameters, hexo.config.metadata || {});
     hexo.post.create(postParameters)
