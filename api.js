@@ -276,7 +276,11 @@ module.exports = function (app, hexo) {
     }
 
     var date = new Date();
-    var slug =`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}${req.body.title}`
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+
+    var slug =`${year}-${month}-${day}${req.body.title}`
     var postParameters = {title: req.body.title, slug: slug, layout: 'draft', date: date, author: hexo.config.author};
     extend(postParameters, hexo.config.metadata || {});
     hexo.post.create(postParameters)
