@@ -6,11 +6,10 @@ var api = require('./api')
 
 var CodeMirror = React.createClass({
   propTypes: {
-    source: PT.string,
-    postName: PT.title,
     onScroll: PT.func,
     forceLineNumbers: PT.bool,
-    adminSettings: PT.object
+    adminSettings: PT.object,
+    post: PT.object
   },
 
   componentDidUpdate: function (prevProps) {
@@ -89,15 +88,19 @@ var CodeMirror = React.createClass({
         }
       }
 
-      const arr = this.props.source.split('/');
-      const postDir = arr.slice(0, arr.length-1).join('/')
+      const arr = this.props.post.source.split('/');
+      const postDir = `${arr.slice(0, arr.length-1).join('/')}/${this.props.post.slug.split('/').at(-1)}`
 
-      const postName = this.props.postName
-
-      api.uploadImage(event.target.result, filename, postDir, postName).then((res) =>
+      api.uploadImage(event.target.result, filename, postDir).then((res) =>
       {
         setTimeout(() => {
-          const img = !!settings.options.enableHtml ? `\n<img src="${res.src}" />` : `\n![${res.msg}](${res.src})`;
+          var imgUrl = res.src
+          if (settings.options.postNameFolder) {
+            imgUrl = `/${this.props.post.path}${settings.options.imagePath ? settings.options.imagePath : '/images'}/${res.filename}` 
+          }
+
+
+          const img = !!settings.options.enableHtml ? ("\n<img src=\"" + imgUrl + "\" />") : ("\n![" + res.msg + "](" + imgUrl + ")");
           this.cm.replaceSelection(img)
         }, 500);
       }

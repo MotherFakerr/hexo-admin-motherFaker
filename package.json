@@ -1,10 +1,11 @@
 {
   "name": "hexo-admin-motherfakerr",
-  "version": "1.1.0",
+  "version": "1.1.7",
   "description": "Adds an admin section to the hexo server, forked from hexo-admin by jaredly",
   "main": "index.js",
   "scripts": {
-    "prepublish": "gulp build"
+    "prepublish": "gulp build",
+    "pub": "gulp build && npm publish"
   },
   "repository": {
     "type": "git",

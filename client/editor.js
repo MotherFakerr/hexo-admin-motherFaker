@@ -113,8 +113,7 @@ var Editor = React.createClass({
             onChange={this.props.onChangeContent}
             forceLineNumbers={this.state.checkingGrammar}
             adminSettings={this.props.adminSettings}
-            source={this.props.post.source}
-            postName={this.props.post.title} />
+            post={this.props.post} />
         </div>
         <div className="editor_display">
           <div className="editor_display-header">

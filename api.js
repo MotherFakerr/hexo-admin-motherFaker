@@ -362,7 +362,7 @@ module.exports = function (app, hexo) {
       overwriteImages = !!settings.options.overwriteImages
       imagePath = settings.options.imagePath ? settings.options.imagePath : imagePath
       if (settings.options.postNameFolder) {
-        imagePath = `${req.body.postDir}/${req.body.postName}/${imagePath}`
+        imagePath = `${req.body.postDir}/${imagePath}`
       } 
       imagePrefix = settings.options.imagePrefix ? settings.options.imagePrefix : imagePrefix
     }
@@ -397,8 +397,8 @@ module.exports = function (app, hexo) {
       }
     }
 
-    filename = path.join(imagePath, filename)
-    var outpath = path.join(hexo.source_dir, filename)
+    var fileFullName = path.join(imagePath, filename)
+    var outpath = path.join(hexo.source_dir, fileFullName)
 
     var dataURI = req.body.data.slice('data:image/png;base64,'.length)
     var buf = new Buffer(dataURI, 'base64')
@@ -407,10 +407,11 @@ module.exports = function (app, hexo) {
       if (err) {
         console.log(err)
       }
-      var imageSrc = path.join(hexo.config.root + filename).replace(/\\/g, '/')
+      var imageSrc = path.join(hexo.config.root + fileFullName).replace(/\\/g, '/')
       hexo.source.process().then(function () {
         res.done({
           src: imageSrc,
+          filename: filename,
           msg: msg
         })
       });
