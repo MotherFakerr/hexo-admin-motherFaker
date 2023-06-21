@@ -466,6 +466,9 @@ module.exports = function (app, hexo) {
           }
         }
         console.log('success')
+        TODO: 
+        var update = {source: '123'}
+        extend(post, update)
         res.done(post)
       }
     })
