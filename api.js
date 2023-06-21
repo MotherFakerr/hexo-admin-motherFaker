@@ -1,5 +1,6 @@
 var path = require('path')
 var fs = require('hexo-fs')
+var pureFs = require("fs")
 var yml = require('js-yaml')
 var deepAssign = require('deep-assign')
 var extend = require('extend')
@@ -361,8 +362,8 @@ module.exports = function (app, hexo) {
       overwriteImages = !!settings.options.overwriteImages
       imagePath = settings.options.imagePath ? settings.options.imagePath : imagePath
       if (settings.options.postNameFolder) {
-        imagePath += `/${req.body.postName}`
-      }
+        imagePath = `${req.body.postDir}/${req.body.postName}/${imagePath}`
+      } 
       imagePrefix = settings.options.imagePrefix ? settings.options.imagePrefix : imagePrefix
     }
 
@@ -434,4 +435,38 @@ module.exports = function (app, hexo) {
       res.done({error: e.message})
     }
   });
+
+  use('renameFolder', function(req, res, next) {
+    var post = hexo.model('Post').get(req.body.postId)
+    if (!post) {
+      model = 'Page'
+      post = hexo.model('Page').get(req.body.postId)
+      if (!post) return res.send(404, "Post not found")
+    }
+
+    var oldFolderName = hexo.config.source_dir+'/'+ req.body.oldFolderName
+    var newFolderName = hexo.config.source_dir+'/'+ req.body.newFolderName
+    if (fs.existsSync(newFolderName)) {
+      return res.send(404, `${newFolderName} already exists`);
+    } 
+
+    pureFs.cp(oldFolderName, newFolderName, { recursive: true }, (e) => {
+      if (e) {
+        res.send(404, 'copy error')
+      } else {
+        fs.rmdirSync(oldFolderName)
+        var pathArr = oldFolderName.split('/')
+        var path = ''
+        for (let index = 1; index < pathArr.length; index++) {
+          path = pathArr.slice(0, index).join('/')
+          if (!fs.readdirSync(path).length) {
+            fs.rmdirSync(path)
+            break
+          }
+        }
+        console.log('success')
+        res.done(post)
+      }
+    })
+  })
 }

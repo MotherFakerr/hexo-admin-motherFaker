@@ -40,21 +40,40 @@ var RenameFile = React.createClass({
   handleRenameFile: function(e) {
     var postId = this.props.post._id
     var editingName = this.state.editingName
-    api.renamePost(postId, editingName).then(result => {
+
+    var oldNameArr = this.state.filename.split('/')
+    var newNameArr = this.state.editingName.split('/')
+
+    var oldFolderName = oldNameArr.slice(0, oldNameArr.length - 1).join('/')
+    var newFolderName = newNameArr.slice(0, newNameArr.length - 1).join('/')
+
+    var oldFileName = oldNameArr.at(-1)
+    var newFileName = newNameArr.at(-1)
+
+    api.renamePost(postId, `${oldFolderName}/${newFileName}`).then(function(result)  {
       if (!result) {
         console.log('error renaming file.')
         this.toggleEditing()
         return
       }
-      console.log(`successfully renamed file to ${editingName}`)
+      console.log(result)
+      api.renameFolder(result._id, oldFolderName, newFolderName).then(result => {
+        console.log(result)
+        if (!result) {
+          console.log('error renaming folder.')
+          this.toggleEditing()
+          return
+        }
+        console.log(("successfully renamed file to " + editingName))
 
-      var url = window.location.pathname.split('/')
-      var rootPath = url.slice(0, url.indexOf('admin')).join('/')
-      var previewLink = path.join(rootPath, result.path)
-
-      this.setState({filename: editingName, editing: false},
-                    this.props.handlePreviewLink(previewLink))
-    })
+        var url = window.location.pathname.split('/')
+        var rootPath = url.slice(0, url.indexOf('admin')).join('/')
+        var previewLink = path.join(rootPath, result.path)
+        this.setState({filename: editingName, editing: false},
+          this.props.handlePreviewLink(previewLink))
+      })
+    
+    }.bind(this))
   },
 
   handleKeyPress: function(e) {

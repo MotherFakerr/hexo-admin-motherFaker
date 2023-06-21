@@ -6,7 +6,8 @@ var api = require('./api')
 
 var CodeMirror = React.createClass({
   propTypes: {
-    title: PT.string,
+    source: PT.string,
+    postName: PT.title,
     onScroll: PT.func,
     forceLineNumbers: PT.bool,
     adminSettings: PT.object
@@ -87,8 +88,13 @@ var CodeMirror = React.createClass({
           filename = prompt(`What would you like to name the photo? All files saved as pngs. Name will be relative to ${filePath}.`, 'image.png')
         }
       }
-      console.log(filename)
-      api.uploadImage(event.target.result, filename, this.props.title).then((res) =>
+
+      const arr = this.props.source.split('/');
+      const postDir = arr.slice(0, arr.length-1).join('/')
+
+      const postName = this.props.postName
+
+      api.uploadImage(event.target.result, filename, postDir, postName).then((res) =>
       {
         setTimeout(() => {
           const img = !!settings.options.enableHtml ? `\n<img src="${res.src}" />` : `\n![${res.msg}](${res.src})`;

@@ -46,13 +46,14 @@ module.exports = function (baseUrl) {
     },
     deploy: (message) => post('/deploy', {message: message}),
     newPage: (title) => post('/pages/new', {title: title}),
-    uploadImage: (data, filename, postName) => post('/images/upload', {data: data, filename: filename, postName: postName}),
+    uploadImage: (data, filename, postDir, postName) => post('/images/upload', {data: data, filename: filename, postDir: postDir, postName: postName}),
     remove: (id) => post('/posts/' + id + '/remove'),
     publish: (id) => post('/posts/' + id + '/publish'),
     unpublish: (id) => post('/posts/' + id + '/unpublish'),
     renamePost: (id, filename) => post('/posts/' + id + '/rename', {
       filename: filename
     }),
+    renameFolder: (id, oldFolderName, newFolderName) => post('/renameFolder', {postId: id, oldFolderName: oldFolderName, newFolderName: newFolderName}),
     tagsCategoriesAndMetadata: () => get('/tags-categories-and-metadata'),
     settings: () => get('/settings/list'),
     setSetting: (name, value, addedOptions) => post('/settings/set', {
