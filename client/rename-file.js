@@ -19,7 +19,8 @@ var RenameFile = React.createClass({
   },
 
   componentDidMount: function() {
-    var filename = this.props.post.source
+    var filename = this.props.post.source.split('/').at(-1).split('.')[0]
+  
     this.setState({
       filename: filename,
       editingName: filename
@@ -41,14 +42,13 @@ var RenameFile = React.createClass({
     var postId = this.props.post._id
     var editingName = this.state.editingName
 
-    var oldNameArr = this.state.filename.split('/')
-    var newNameArr = this.state.editingName.split('/')
+    var oldNameArr = this.props.post.source.split('/')
 
     var oldFolderName = oldNameArr.slice(0, oldNameArr.length - 1).join('/')
-    var newFolderName = newNameArr.slice(0, newNameArr.length - 1).join('/')
+    var newFolderName = oldNameArr.slice(0, oldNameArr.length - 2).join('/') + '/' + editingName
 
     var oldFileName = oldNameArr.at(-1)
-    var newFileName = newNameArr.at(-1)
+    var newFileName = editingName + '.md'
 
     api.renamePost(postId, `${oldFolderName}/${newFileName}`).then(function(result)  {
       if (!result) {
