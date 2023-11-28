@@ -86,7 +86,7 @@ var Posts = React.createClass({
         <Rendered
           ref="rendered"
           className="posts_content"
-          text={current.content}/>
+          text={current._content}/>
       </div>
     </div>
   }

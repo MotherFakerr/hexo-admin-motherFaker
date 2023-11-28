@@ -281,8 +281,8 @@ module.exports = function (app, hexo) {
     var month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
     var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
 
-    var slug =`${year}-${month}-${day}${req.body.title}`
-    var postParameters = {title: req.body.title, slug: slug, layout: 'draft', date: date, author: hexo.config.author};
+    var slug =`${year}-${month}-${day}-${req.body.title}`
+    var postParameters = {title: req.body.title, slug: slug, layout: 'post', date: date, author: hexo.config.author, path: `${slug}/${slug}`};
     extend(postParameters, hexo.config.metadata || {});
     hexo.post.create(postParameters)
     .error(function(err) {
@@ -292,8 +292,10 @@ module.exports = function (app, hexo) {
     .then(function (file) {
       var source = file.path.slice(hexo.source_dir.length)
       hexo.source.process([source]).then(function () {
-        var post = hexo.model('Post').findOne({source: source.replace(/\\/g, '\/')})
-        res.done(addIsDraft(post));
+        setTimeout(() => {
+          var post = hexo.model('Post').findOne({source: source.replace(/\\/g, '\/')})
+          res.done(addIsDraft(post));
+        })
       });
     });
   });
