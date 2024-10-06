@@ -104,7 +104,7 @@ var AutoList = React.createClass({
                   list={this.props.optionKey}
                 />
                 <datalist id={this.props.optionKey}>
-                  {options.map((option, index) => (
+                  {this.props.options.map((option, index) => (
                     <option key={index} value={option} />
                   ))}
                 </datalist>
